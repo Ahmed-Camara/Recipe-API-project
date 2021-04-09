@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 export default class Search{
 
     constructor(query){
@@ -14,8 +15,6 @@ export default class Search{
             const res = await axios(`${proxy}https://recipesapi.herokuapp.com/api/search?q=${this.query}`);
 
             this.result = res.data.recipes;
-            
-            console.log(this.result);
         
         }catch(error){
 
