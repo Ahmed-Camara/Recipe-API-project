@@ -14,8 +14,8 @@
  <h3>How to run<h3>
  <hr>
     <p>clone the github repository : </p>
-    ```
-   git clone git@github.com:Ahmed-Camara/Recipe-API-project.git
-    ```
+   
+   - git clone git@github.com:Ahmed-Camara/Recipe-API-project.git
+    
  <hr>
 
