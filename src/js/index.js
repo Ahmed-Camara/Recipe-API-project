@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import * as searchView from './views/SearchView';
 import {elements,renderLoader,clearLoader} from './views/base';
+import Recipe from './models/Recipe';
 /**Global state of the app
  * Search object
  * Current recipe object
@@ -11,6 +12,7 @@ import {elements,renderLoader,clearLoader} from './views/base';
 
 const state = {};
 
+/**SEARCH CONTROLLER **/
 const controlSearch = async () => {
 
 
@@ -27,12 +29,19 @@ const controlSearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchRes);
 
-        //4. Search for recipes
-        await state.search.getResults();
+        try{
+            //4. Search for recipes
+            await state.search.getResults();
 
-        //5. result results on UI
-        clearLoader();
-        searchView.renderResults(state.search.result);
+            //5. result results on UI
+            clearLoader();
+            searchView.renderResults(state.search.result);
+        
+        }catch(error){
+
+            console.log('something is wrong');
+            clearLoader();
+        }
   }
 }
 
@@ -56,3 +65,46 @@ elements.searchResPages.addEventListener('click',e => {
         searchView.renderResults(state.search.result,goToPage);
     }
 });
+
+/**RECIPE CONTROLLER **/
+
+/**
+ * We need to add the hashchange eventListener to the window object, that is fired each time the hash in URL changes
+ * We need to get the hash by using the window object
+ * Window.location is the entire URL, and we use the .hash property on it, that will return the hash in the URL
+ * 
+ * Ex:http://localhost:8080/#41470 after the event is fired, the id will be equal to #41470 (i.e id = #41470)
+ * 
+ * The replace function is used to remove the # symbol from the id String, the id = 41470
+ * **/
+const controlRecipe = async () => {
+
+    const id = window.location.hash.replace('#','');
+
+    if(id){
+
+        // Prepare UI for changes
+
+        // Create new Recipe Object
+        state.recipe = new Recipe(id);
+
+        try{
+            //Get Recipe data
+            await state.recipe.getRecipe();
+
+            //Calculate servings and time
+            state.recipe.calcServings();
+            state.recipe.calcTime();
+
+            //Render the recipe
+            console.log(state.recipe);
+        
+        }catch(error){
+
+            console.log('something is wrong');
+        }
+    }
+};
+
+
+['hashchange','load'].forEach(event => window.addEventListener(event,controlRecipe));
