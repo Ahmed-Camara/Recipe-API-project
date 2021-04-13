@@ -11,15 +11,4 @@
     The project was created as part of <a href="https://github.com/jonasschmedtmann">Jonas Schmedtmann</a> Javascript course on udemy.
   </p>
 <hr>
- <h3>How to run<h3>
- <hr>
-    <p>clone the github repository : </p>
-      - git clone git@github.com:Ahmed-Camara/Recipe-API-project.git
-   <p>run : </p>
-      - npm install in the terminal to install all the dependencies needed
-    
-   <p>finally, to launch the app : </p>
-      - npx webpack serve
-    
- <hr>
-
+ 
