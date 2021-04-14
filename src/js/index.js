@@ -1,7 +1,10 @@
 import Search from './models/Search';
 import * as searchView from './views/SearchView';
+import * as recipeView from './views/RecipeView';
 import {elements,renderLoader,clearLoader} from './views/base';
 import Recipe from './models/Recipe';
+
+
 /**Global state of the app
  * Search object
  * Current recipe object
@@ -52,6 +55,13 @@ elements.searchForm.addEventListener('submit',e => {
     controlSearch();
 });
 
+window.addEventListener('load',e => {
+
+    e.preventDefault();
+
+    controlSearch();
+});
+
 elements.searchResPages.addEventListener('click',e => {
 
     const btn = e.target.closest('.btn-inline');
@@ -84,24 +94,33 @@ const controlRecipe = async () => {
     if(id){
 
         // Prepare UI for changes
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
+
+        // hightlight
+        if(state.search)searchView.highlightSelected(id);
 
         // Create new Recipe Object
         state.recipe = new Recipe(id);
+        window.r = state.recipe;
 
         try{
-            //Get Recipe data
+            //Get Recipe data and parse Ingredients
             await state.recipe.getRecipe();
+            state.recipe.parseIngredients();
 
             //Calculate servings and time
             state.recipe.calcServings();
             state.recipe.calcTime();
 
             //Render the recipe
-            console.log(state.recipe);
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
         
         }catch(error){
 
-            console.log('something is wrong');
+            alert(error);
+           // console.log('Recipe : something is wrong');
         }
     }
 };
