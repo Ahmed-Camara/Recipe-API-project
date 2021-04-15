@@ -90,19 +90,19 @@ elements.searchResPages.addEventListener('click',e => {
 const controlRecipe = async () => {
 
     const id = window.location.hash.replace('#','');
-
+    console.log(id);
     if(id){
-
         // Prepare UI for changes
         recipeView.clearRecipe();
         renderLoader(elements.recipe);
 
         // hightlight
-        if(state.search)searchView.highlightSelected(id);
+        if(state.search){
+            searchView.highlightSelected(id);
+        }
 
         // Create new Recipe Object
         state.recipe = new Recipe(id);
-        window.r = state.recipe;
 
         try{
             //Get Recipe data and parse Ingredients
@@ -115,11 +115,11 @@ const controlRecipe = async () => {
 
             //Render the recipe
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+           recipeView.renderRecipe(state.recipe);
         
         }catch(error){
 
-            alert(error);
+            console.log(error);
            // console.log('Recipe : something is wrong');
         }
     }
