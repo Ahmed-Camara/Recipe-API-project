@@ -12,8 +12,6 @@ export default class Search{
 
         try{
 
-            console.log(proxy);
-
             const res = await axios(`${proxy}https://recipesapi.herokuapp.com/api/search?q=${this.query}`);
 
             this.result = res.data.recipes;
