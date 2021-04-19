@@ -58,8 +58,7 @@ export default class Recipe{
             });
             //2. remove parentheses
             ingredient = ingredient.replace(/ *\([^)]*\) */g, " ");
-
-            console.log(ingredient);
+            
             //3. Parse ingredients into count, unit and ingredient
             const arrIng = ingredient.split(' ');
             
