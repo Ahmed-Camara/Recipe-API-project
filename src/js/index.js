@@ -13,8 +13,8 @@ import Likes from './models/Likes';
  * Current recipe object
  * Shopping list object
  * Liked recipes
- * 
  * **/
+
 
 const state = {};
 window.state = state;
@@ -179,8 +179,21 @@ elements.shopping.addEventListener('click',e => {
  * LIKE CONTROLLER
  * **/
 
-//TESTING
- state.likes = new Likes();
+
+
+ // restore likes recipe on page loads
+
+ window.addEventListener('load',() => {
+
+    state.likes = new Likes();
+    
+    state.likes.readStorage();
+
+    likesView.toggleLikeMenu(state.likes.getNumberLikes());
+
+    //render existings like
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+});
 const controlLike = () => {
 
     if(!state.likes){
@@ -209,7 +222,7 @@ const controlLike = () => {
         likesView.toogleLikeButton(false);
 
         //remove like to UI list
-        console.log(state.likes);
+        likesView.deleteLike(currentID);
     }
 
     likesView.toggleLikeMenu(state.likes.getNumberLikes());
